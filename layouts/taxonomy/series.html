@@ -1,0 +1,45 @@
+{{ define "main" }}
+<main class="main-content">
+    <div class="series-container">
+        <div class="series-header sidebar-section">
+            <h1 class="series-title">{{ .Title }}</h1>
+            <div class="series-meta text-muted">
+                <span>作品数：{{ len .Pages }}</span> |
+                <span>总字数：{{ $totalWords := 0 }}{{ range .Pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end
+                    }}{{ $totalWords }}</span>
+            </div>
+            {{ with .Params.description }}
+            <div class="series-description" style="margin-top: 15px;">
+                {{ . | markdownify }}
+            </div>
+            {{ end }}
+        </div>
+    </div>
+
+    <div class="novel-list">
+        {{ range .Pages.ByDate }}
+        <div class="novel-card">
+            <div class="novel-card-thumb">
+                {{ if .Params.image }}
+                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
+                {{ else }}
+                <span class="text-muted">No Image</span>
+                {{ end }}
+            </div>
+            <div class="novel-card-content">
+                <div class="novel-card-title">
+                    <a href="{{ .Permalink }}">#{{ .Params.series_index | default "" }} {{ .Title }}</a>
+                </div>
+                <div class="novel-card-stats">
+                    <span>{{ .WordCount }}字</span>
+                    <span>{{ .Date.Format "2006-01-02" }}</span>
+                </div>
+                <div class="novel-card-description">
+                    {{ .Summary | truncate 150 }}
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</main>
+{{ end }}

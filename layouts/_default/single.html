@@ -1,17 +1,23 @@
 {{ define "main" }}
 <main class="main-content">
     <article class="novel-page">
-        <header class="novel-header">
-            <h1 class="novel-title">{{ .Title }}</h1>
-            <div class="novel-meta">
-                <span>作者：{{ .Params.author | default .Site.Params.author | default "未知作者" }}</span> |
-                <span>发布于：{{ .Date.Format "2006-01-02" }}</span> |
-                <span>字数：{{ .WordCount }}</span>
+        <header class="novel-header"
+            style="border-bottom: 1px solid var(--border-color); padding-bottom: 30px; margin-bottom: 40px;">
+            <div style="margin-bottom: 10px;">
+                {{ if .Params.series }}
+                <a href="{{ " series/" | relURL }}{{ .Params.series | urlize }}"
+                    style="color: var(--text-muted); font-size: 0.9rem;">{{ .Params.series }}</a>
+                {{ end }}
+            </div>
+            <h1 class="novel-title" style="font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px;">{{ .Title }}</h1>
+            <div class="novel-meta" style="margin-bottom: 20px;">
+                <span>{{ .WordCount }}字</span> |
+                <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
             </div>
             {{ with .Params.tags }}
             <div class="novel-tags">
                 {{ range . }}
-                <a href="{{ " tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
                 {{ end }}
             </div>
             {{ end }}

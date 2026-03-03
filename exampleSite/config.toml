@@ -6,3 +6,8 @@ theme = "pixlike"
 [params]
     author = "Pixiv Artist"
     description = "这是一个类 Pixiv 风格的小说展示系统。"
+
+[taxonomies]
+    series = "series"
+    tag = "tags"
+    category = "categories"

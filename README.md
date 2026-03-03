@@ -7,3 +7,10 @@
 ```bash
 git submodule add https://github.com/ReiAccept/hugo-theme-pixlike.git themes/pixlike
 ```
+
+## Update
+
+```bash
+git submodule update --remote --merge
+```
+

@@ -29,6 +29,7 @@ a:hover {
 }
 
 .container {
+    min-width: 1000px;
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
@@ -60,93 +61,165 @@ header {
     color: var(--pixiv-blue);
 }
 
-.main-content {
-    flex: 1;
+/* Novel Item Card - Author List Style */
+.novel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.novel-card {
     background: var(--bg-card);
-    padding: 40px;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.2s;
 }
 
-.sidebar {
-    width: 300px;
+.novel-card:hover {
+    background-color: #fafafa;
 }
 
-.sidebar-card {
+.novel-card-thumb {
+    width: 100px;
+    height: 140px;
+    background: #eee;
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.novel-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.novel-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.novel-card-series {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.novel-card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.novel-card-title a {
+    color: var(--text-main);
+}
+
+.novel-card-title a:hover {
+    color: var(--pixiv-blue);
+    text-decoration: none;
+}
+
+.novel-card-stats {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.novel-card-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.novel-card-tags {
+    margin-top: auto;
+}
+
+/* Sidebar Enhancements */
+.sidebar-section {
     background: var(--bg-card);
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
 }
 
-/* Novel Page Styles */
-.novel-header {
-    margin-bottom: 30px;
+.sidebar-section-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
+    color: #444;
 }
 
-.novel-title {
-    font-size: 2rem;
-    margin: 0 0 10px 0;
+/* Series Navigation List in Sidebar */
+
+.series-nav-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
 }
 
-.novel-meta {
+.series-nav-item {
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    transition: background 0.2s;
+}
+
+.series-nav-item:hover {
+    background: #f0f7ff;
+}
+
+.series-nav-item.active {
+    background: #e6f4ff;
+    color: var(--pixiv-blue);
+    font-weight: bold;
+}
+
+.series-nav-item a {
+    color: inherit;
+    display: block;
+}
+
+/* Table of Contents */
+#TableOfContents ul {
+    list-style: none;
+    padding-left: 15px;
+    margin: 0;
+}
+
+#TableOfContents > ul {
+    padding-left: 0;
+}
+
+#TableOfContents li {
+    margin-bottom: 8px;
+}
+
+#TableOfContents a {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
 
-.novel-tags {
-    margin-top: 10px;
-}
-
-.tag {
-    display: inline-block;
-    background: #f0f7ff;
+#TableOfContents a:hover {
     color: var(--pixiv-blue);
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-right: 5px;
-    font-size: 0.85rem;
-}
-
-.novel-body {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #1a1a1a;
-    text-align: justify;
-    max-width: 65ch;
-    margin: 0 auto;
-}
-
-.novel-body p {
-    margin-bottom: 1.5em;
-    text-indent: 1em;
-}
-
-/* Footer Navigation */
-.novel-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
-}
-
-.nav-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--pixiv-blue);
-    color: white;
-    border-radius: 4px;
-    font-weight: bold;
-}
-
-.nav-btn:hover {
-    background: var(--pixiv-blue-hover);
-    text-decoration: none;
 }
 
 /* Responsive */
@@ -157,11 +230,24 @@ header {
     }
     .sidebar {
         width: 100%;
+        order: 2;
     }
     .main-content {
         padding: 20px;
+        order: 1;
+    }
+    .series-content {
+        padding: 20px;
+        order: 1;
     }
     .novel-body {
         font-size: 1.05rem;
+    }
+    .novel-card {
+        padding: 10px;
+    }
+    .novel-card-thumb {
+        width: 80px;
+        height: 112px;
     }
 }
