@@ -1,0 +1,39 @@
+{{ define "main" }}
+<main class="main-content">
+    <article class="novel-page">
+        <header class="novel-header">
+            <h1 class="novel-title">{{ .Title }}</h1>
+            <div class="novel-meta">
+                <span>作者：{{ .Params.author | default .Site.Params.author | default "未知作者" }}</span> |
+                <span>发布于：{{ .Date.Format "2006-01-02" }}</span> |
+                <span>字数：{{ .WordCount }}</span>
+            </div>
+            {{ with .Params.tags }}
+            <div class="novel-tags">
+                {{ range . }}
+                <a href="{{ " tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                {{ end }}
+            </div>
+            {{ end }}
+        </header>
+
+        <div class="novel-body">
+            {{ .Content }}
+        </div>
+
+        <nav class="novel-nav">
+            {{ if .PrevInSection }}
+            <a href="{{ .PrevInSection.Permalink }}" class="nav-btn">上一章</a>
+            {{ else }}
+            <span></span>
+            {{ end }}
+
+            {{ if .NextInSection }}
+            <a href="{{ .NextInSection.Permalink }}" class="nav-btn">下一章</a>
+            {{ else }}
+            <span></span>
+            {{ end }}
+        </nav>
+    </article>
+</main>
+{{ end }}

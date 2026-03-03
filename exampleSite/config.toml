@@ -1,0 +1,8 @@
+baseURL = "http://example.org/"
+languageCode = "zh-cn"
+title = "My Pixiv-like Novel Site"
+theme = "pixlike"
+
+[params]
+    author = "Pixiv Artist"
+    description = "这是一个类 Pixiv 风格的小说展示系统。"

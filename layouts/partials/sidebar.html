@@ -1,0 +1,15 @@
+<aside class="sidebar">
+    <div class="sidebar-card">
+        <h3>作者信息</h3>
+        <p><strong>{{ .Params.author | default .Site.Params.author | default "未知作者" }}</strong></p>
+        <p class="text-muted">此处可放置作者简介或头像。</p>
+    </div>
+    <div class="sidebar-card">
+        <h3>推荐文章</h3>
+        <ul>
+            {{ range first 5 (where .Site.RegularPages "Type" "novel") }}
+            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+    </div>
+</aside>

@@ -1,0 +1,12 @@
+{{ $paginator := .Paginator }}
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pagination" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+    {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}" class="nav-btn">上一页</a>
+    {{ end }}
+
+    {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}" class="nav-btn">下一页</a>
+    {{ end }}
+</nav>
+{{ end }}
