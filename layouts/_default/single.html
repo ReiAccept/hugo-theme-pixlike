@@ -1,11 +1,12 @@
 {{ define "main" }}
-<main class="main-content">
+<main class="main-content" style="display: flex;">
+    <link rel="stylesheet" href="{{ "css/noval.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/sidebar.css" | relURL }}">
     <article class="novel-page">
-        <header class="novel-header"
-            style="border-bottom: 1px solid var(--border-color); padding-bottom: 30px; margin-bottom: 40px;">
-            <div style="margin-bottom: 10px;">
+        <div class="novel-header">
+            <div>
                 {{ if .Params.series }}
-                <a href="{{ " series/" | relURL }}{{ .Params.series | urlize }}"
+                <a href="{{ "series/" | relURL }}{{ .Params.series | urlize }}"
                     style="color: var(--text-muted); font-size: 0.9rem;">{{ .Params.series }}</a>
                 {{ end }}
             </div>
@@ -21,26 +22,35 @@
                 {{ end }}
             </div>
             {{ end }}
-        </header>
+        </div>
 
         <div class="novel-body">
             {{ .Content }}
         </div>
-
-        <nav class="novel-nav">
-            {{ if .PrevInSection }}
-            <a href="{{ .PrevInSection.Permalink }}" class="nav-btn">上一章</a>
-            {{ else }}
-            <span></span>
-            {{ end }}
-
-            {{ if .NextInSection }}
-            <a href="{{ .NextInSection.Permalink }}" class="nav-btn">下一章</a>
-            {{ else }}
-            <span></span>
-            {{ end }}
-        </nav>
     </article>
+    
+    <aside class="sidebar">
+        {{ if .Params.series }}
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">系列</div>
+            <div id="TableOfContents">
+                {{ $current := . }}
+                {{ range (where .Site.RegularPages "Params.series" .Params.series).ByDate }}
+                <div class="series-nav-item{{ if eq . $current }} active{{ end }}">
+                    <a href="{{ .Permalink }}">#{{ .Params.series_index | default "" }} {{ .Title }}</a>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">目录</div>
+            <div id="TableOfContents">
+                {{ .TableOfContents }}
+            </div>
+        </div>
+    </aside>
 </main>
-{{ partial "sidebar.html" . }}
+
 {{ end }}

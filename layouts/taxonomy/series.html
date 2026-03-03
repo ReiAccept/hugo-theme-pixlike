@@ -1,9 +1,11 @@
 {{ define "main" }}
 <main class="main-content">
+    <link rel="stylesheet" href="{{ "css/series.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
     <div class="series-container">
-        <div class="series-header sidebar-section">
+        <div class="series-header">
             <h1 class="series-title">{{ .Title }}</h1>
-            <div class="series-meta text-muted">
+            <div class="series-meta">
                 <span>作品数：{{ len .Pages }}</span> |
                 <span>总字数：{{ $totalWords := 0 }}{{ range .Pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end
                     }}{{ $totalWords }}</span>
@@ -14,32 +16,42 @@
             </div>
             {{ end }}
         </div>
-    </div>
 
-    <div class="novel-list">
-        {{ range .Pages.ByDate }}
-        <div class="novel-card">
-            <div class="novel-card-thumb">
+    <div class="list">
+        {{ range .Paginator.Pages }}
+        <div class="list-card">
+            <div class="list-card-thumb">
                 {{ if .Params.image }}
                 <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
                 {{ else }}
-                <span class="text-muted">No Image</span>
+                <div style="text-align: center; color: #ccc;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <path d="M21 15l-5-5L5 21" />
+                    </svg>
+                </div>
                 {{ end }}
             </div>
-            <div class="novel-card-content">
-                <div class="novel-card-title">
-                    <a href="{{ .Permalink }}">#{{ .Params.series_index | default "" }} {{ .Title }}</a>
+            <div class="list-card-content">
+                <div class="list-card-title">
+                    <a href="{{ .Permalink }}">{{ .Title }}</a>
                 </div>
-                <div class="novel-card-stats">
+                <div class="list-card-stats">
                     <span>{{ .WordCount }}字</span>
-                    <span>{{ .Date.Format "2006-01-02" }}</span>
+                    <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
                 </div>
-                <div class="novel-card-description">
-                    {{ .Summary | truncate 150 }}
+                {{ with .Params.tags }}
+                <div class="list-card-tags">
+                    {{ range . }}
+                    <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                    {{ end }}
                 </div>
+                {{ end }}
             </div>
         </div>
-        {{ end }}
+            {{ end }}
+        </div>
     </div>
 </main>
 {{ end }}

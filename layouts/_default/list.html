@@ -1,13 +1,14 @@
 {{ define "main" }}
 <main class="main-content">
-    <div class="list-header" style="margin-bottom: 20px;">
+    <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
+    <div class="list-header">
         <h1 style="font-size: 1.5rem;">{{ if .IsHome }}最新作品{{ else }}{{ .Title }}{{ end }}</h1>
     </div>
 
-    <div class="novel-list">
+    <div class="list">
         {{ range .Paginator.Pages }}
-        <div class="novel-card">
-            <div class="novel-card-thumb">
+        <div class="list-card">
+            <div class="list-card-thumb">
                 {{ if .Params.image }}
                 <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
                 {{ else }}
@@ -20,24 +21,21 @@
                 </div>
                 {{ end }}
             </div>
-            <div class="novel-card-content">
+            <div class="list-card-content">
                 {{ if .Params.series }}
-                <div class="novel-card-series">
+                <div class="list-card-series">
                     <a href="{{ "series/" | relURL }}{{ .Params.series | urlize }}">{{ .Params.series }}</a>
                 </div>
                 {{ end }}
-                <div class="novel-card-title">
+                <div class="list-card-title">
                     <a href="{{ .Permalink }}">{{ .Title }}</a>
                 </div>
-                <div class="novel-card-stats">
+                <div class="list-card-stats">
                     <span>{{ .WordCount }}字</span>
                     <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
                 </div>
-                <div class="novel-card-description">
-                    {{ .Summary | truncate 200 }}
-                </div>
                 {{ with .Params.tags }}
-                <div class="novel-card-tags">
+                <div class="list-card-tags">
                     {{ range . }}
                     <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
                     {{ end }}
