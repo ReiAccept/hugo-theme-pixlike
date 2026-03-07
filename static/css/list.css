@@ -23,8 +23,8 @@
 }
 
 .list-card-thumb {
-    width: 100px;
-    height: 140px;
+    width: 105px;
+    height: 150px;
     background: #eee;
     border-radius: 4px;
     flex-shrink: 0;
