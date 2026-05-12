@@ -2,7 +2,10 @@
 title: "春天的记忆"
 date: 2026-03-01
 author: "青空"
+series: "测试系列"
+series_index: 1
 tags: ["治愈", "校园", "短篇"]
+image: ""
 ---
 
 那是三月的一个午后，微风带着泥土的清香。

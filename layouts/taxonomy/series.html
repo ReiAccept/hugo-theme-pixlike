@@ -1,51 +1,56 @@
 {{ define "main" }}
-<main class="main-content">
-    <link rel="stylesheet" href="{{ "css/series.css" | relURL }}">
-    <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
-    <div class="series-container">
-        <div class="series-header">
-            <h1 class="series-title">{{ .Title }}</h1>
-            <div class="series-meta">
-                <span>作品数：{{ len .Pages }}</span> |
-                <span>总字数：{{ $totalWords := 0 }}{{ range .Pages }}{{ $totalWords = add $totalWords .WordCount }}{{ end
-                    }}{{ $totalWords }}</span>
-            </div>
-            {{ with .Params.description }}
-            <div class="series-description" style="margin-top: 15px;">
-                {{ . | markdownify }}
-            </div>
-            {{ end }}
-        </div>
-
-    <div class="list">
-        {{ range .Paginator.Pages }}
-        <div class="list-card">
-            <div class="list-card-thumb">
-                {{ if .Params.image }}
-                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
-                {{ else }}
-                <img src="/images/default_thumb.jpg" alt="{{ .Title }}">
-                {{ end }}
-            </div>
-            <div class="list-card-content">
-                <div class="list-card-title">
-                    <a href="{{ .Permalink }}">{{ .Title }}</a>
-                </div>
-                <div class="list-card-stats">
-                    <span>{{ .WordCount }}字</span>
-                    <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
-                </div>
-                {{ with .Params.tags }}
-                <div class="list-card-tags">
-                    {{ range . }}
-                    <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+<div class="container">
+    <main class="main-content">
+        <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
+        <div class="series-container">
+            <div class="series-header">
+                <h1 class="series-title">{{ .Title }}</h1>
+                <div class="series-meta">
+                    {{ $totalWords := 0 }}
+                    {{ range .Pages }}
+                        {{ $totalWords = add $totalWords .WordCount }}
                     {{ end }}
+                    <span>共 {{ len .Pages }} 篇</span>
+                    <span>总字数 {{ $totalWords }}</span>
+                    <span>最后更新 {{ (index (sort .Pages "Date" "desc") 0).Date.Format "2006-01-02" }}</span>
+                </div>
+                {{ with .Params.description }}
+                <div class="series-description">
+                    {{ . | markdownify }}
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="list">
+                {{ range .Paginator.Pages.ByDate.Reverse }}
+                <div class="list-card">
+                    <div class="list-card-thumb">
+                        {{ if .Params.image }}
+                        <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="lazy">
+                        {{ else }}
+                        <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ .Title }}" loading="lazy">
+                        {{ end }}
+                    </div>
+                    <div class="list-card-content">
+                        <div class="list-card-title">
+                            <a href="{{ .Permalink }}">{{ .Title }}</a>
+                        </div>
+                        <div class="list-card-stats">
+                            <span>{{ .WordCount }}字</span>
+                            <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
+                        </div>
+                        {{ with .Params.tags }}
+                        <div class="list-card-tags">
+                            {{ range . }}
+                            <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
                 </div>
                 {{ end }}
             </div>
         </div>
-            {{ end }}
-        </div>
-    </div>
-</main>
+    </main>
+</div>
 {{ end }}

@@ -1,30 +1,47 @@
-.list {
-    display: flex;
-    padding-top: 10px;
-    flex-wrap: wrap;
-    margin: 10px;
-    width: 100%;
+/* ========== List Page ========== */
+.list-header {
+    margin-bottom: 20px;
 }
 
+.list-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 4px;
+}
+
+.list-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ---------- List Card ---------- */
 .list-card {
     background: var(--bg-card);
-    padding: 15px;
-    border-radius: 8px;
+    border-radius: var(--radius);
     display: flex;
-    gap: 15px;
+    gap: 16px;
     border: 1px solid var(--border-color);
-    transition: background-color 0.2s;
-    margin: 5px;
-    width: 30%;
+    padding: 14px;
+    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
 .list-card:hover {
-    background-color: #fafafa;
+    background: #fafafa;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
 }
 
 .list-card-thumb {
-    width: 105px;
-    height: 150px;
+    width: 98px;
+    height: 140px;
     background: #eee;
     border-radius: 4px;
     flex-shrink: 0;
@@ -44,37 +61,93 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .list-card-series {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     margin-bottom: 4px;
 }
 
+.list-card-series a {
+    color: var(--text-muted);
+}
+
+.list-card-series a:hover {
+    color: var(--pixiv-blue);
+}
+
 .list-card-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
 }
 
 .list-card-title a {
     color: var(--text-main);
+    transition: color var(--transition);
 }
 
 .list-card-title a:hover {
     color: var(--pixiv-blue);
-    text-decoration: none;
 }
 
 .list-card-stats {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .list-card-tags {
     margin-top: auto;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* ---------- Series specific ---------- */
+.series-container {
+    max-width: 100%;
+}
+
+.series-header {
+    margin-bottom: 24px;
+}
+
+.series-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.series-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.series-description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .list-card {
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .list-card-thumb {
+        width: 77px;
+        height: 110px;
+    }
+
+    .list-card-title {
+        font-size: 0.95rem;
+    }
 }

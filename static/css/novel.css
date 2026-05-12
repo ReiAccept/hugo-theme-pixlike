@@ -1,3 +1,124 @@
+/* ========== Novel / Single Page ========== */
 .novel-page {
-    width: 80%;
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* ---------- Novel Header ---------- */
+.novel-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.novel-series-link {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    transition: color var(--transition);
+}
+
+.novel-series-link:hover {
+    color: var(--pixiv-blue);
+}
+
+.novel-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text-main);
+    margin: 0 0 12px;
+    letter-spacing: 0.02em;
+}
+
+.novel-meta {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.novel-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.novel-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+/* ---------- Novel Body ---------- */
+.novel-body {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--text-main);
+}
+
+.novel-body p {
+    margin: 0 0 1.2em;
+}
+
+.novel-body p:last-child {
+    margin-bottom: 0;
+}
+
+.novel-body h2 {
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    margin: 2em 0 0.8em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.novel-body h3 {
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    margin: 1.8em 0 0.6em;
+}
+
+.novel-body blockquote {
+    margin: 1.2em 0;
+    padding: 8px 18px;
+    border-left: 3px solid var(--pixiv-blue);
+    background: #f8fbff;
+    color: var(--text-muted);
+    border-radius: 0 4px 4px 0;
+}
+
+.novel-body hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2em 0;
+}
+
+.novel-body img {
+    max-width: 100%;
+    border-radius: var(--radius);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .novel-title {
+        font-size: 1.5rem;
+    }
+
+    .novel-body {
+        font-size: 1rem;
+        line-height: 1.85;
+    }
+
+    .novel-header {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+    }
 }

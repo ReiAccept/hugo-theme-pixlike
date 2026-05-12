@@ -1,10 +1,13 @@
-<header>
+<header class="site-header">
     <link rel="stylesheet" href="{{ "css/header.css" | relURL }}">
     <div class="header-content">
-        <a href="{{ .Site.BaseURL | relURL }}" class="logo">{{ .Site.Title }}</a>
-        <nav>
-            <a href="{{ "tags" | relURL }}">Tags</a>
-            <a href="{{ "series" | relURL }}">Series</a>
+        <a href="{{ .Site.Home.Permalink }}" class="logo">{{ .Site.Title }}</a>
+        <nav class="site-nav">
+            {{ range .Site.Menus.main }}
+            <a href="{{ .URL }}">{{ .Name }}</a>
+            {{ end }}
+            <a href="{{ "tags/" | relURL }}">Tags</a>
+            <a href="{{ "series/" | relURL }}">Series</a>
         </nav>
     </div>
 </header>

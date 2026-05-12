@@ -1,56 +1,58 @@
 {{ define "main" }}
-<main class="main-content" style="display: flex;">
+<main class="main-content">
     <link rel="stylesheet" href="{{ "css/novel.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/sidebar.css" | relURL }}">
-    <article class="novel-page">
-        <div class="novel-header">
-            <div>
-                {{ if .Params.series }}
-                <a href="{{ "series/" | relURL }}{{ .Params.series | urlize }}"
-                    style="color: var(--text-muted); font-size: 0.9rem;">{{ .Params.series }}</a>
-                {{ end }}
-            </div>
-            <h1 class="novel-title" style="font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px;">{{ .Title }}</h1>
-            <div class="novel-meta" style="margin-bottom: 20px;">
-                <span>{{ .WordCount }}字</span> |
-                <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
-            </div>
-            {{ with .Params.tags }}
-            <div class="novel-tags">
-                {{ range . }}
-                <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
-                {{ end }}
-            </div>
-            {{ end }}
-        </div>
-
-        <div class="novel-body">
-            {{ .Content }}
-        </div>
-    </article>
-    
-    <aside class="sidebar">
-        {{ if .Params.series }}
-        <div class="sidebar-section">
-            <div class="sidebar-section-title">系列</div>
-            <div id="TableOfContents">
-                {{ $current := . }}
-                {{ range (where .Site.RegularPages "Params.series" .Params.series).ByDate }}
-                <div class="series-nav-item{{ if eq . $current }} active{{ end }}">
-                    <a href="{{ .Permalink }}">#{{ .Params.series_index | default "" }} {{ .Title }}</a>
+    <div class="container">
+        <article class="novel-page">
+            <div class="novel-header">
+                <div>
+                    {{ if .Params.series }}
+                    {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
+                    <a href="{{ $seriesPage.Permalink }}" class="novel-series-link">{{ .Params.series }}</a>
+                    {{ end }}
+                </div>
+                <h1 class="novel-title">{{ .Title }}</h1>
+                <div class="novel-meta">
+                    <span>{{ .WordCount }}字</span>
+                    <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
+                </div>
+                {{ with .Params.tags }}
+                <div class="novel-tags">
+                    {{ range . }}
+                    <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                    {{ end }}
                 </div>
                 {{ end }}
             </div>
-        </div>
-        {{ end }}
 
-        <div class="sidebar-section">
-            <div class="sidebar-section-title">目录</div>
-            <div id="TableOfContents">
-                {{ .TableOfContents }}
+            <div class="novel-body">
+                {{ .Content }}
             </div>
-        </div>
-    </aside>
-</main>
+        </article>
 
+        <aside class="sidebar">
+            {{ if .Params.series }}
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">系列目录</div>
+                <div class="series-nav-list">
+                    {{ $current := . }}
+                    {{ $seriesName := .Params.series }}
+                    {{ range (where .Site.RegularPages "Params.series" $seriesName).ByDate }}
+                    <div class="series-nav-item{{ if eq .Permalink $current.Permalink }} active{{ end }}">
+                        <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">本页目录</div>
+                <div id="TableOfContents">
+                    {{ .TableOfContents }}
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
 {{ end }}

@@ -1,13 +1,18 @@
 baseURL = "http://example.org/"
-languageCode = "zh-cn"
-title = "My Pixiv-like Novel Site"
+locale = "zh-cn"
+title = "我的小说站"
 theme = "pixlike"
 
-[params]
-    author = "Pixiv Artist"
-    description = "这是一个类 Pixiv 风格的小说展示系统。"
-
 [taxonomies]
-    series = "series"
-    tag = "tags"
-    category = "categories"
+  tag = "tags"
+  series = "series"
+
+[params]
+  author = "Pixiv-liker"
+  description = "一个仿 Pixiv 小说阅读风格的 Hugo 主题"
+
+[permalinks]
+  novel = "/novel/:slug/"
+
+[pagination]
+  pagerSize = 10

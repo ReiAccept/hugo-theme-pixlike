@@ -1,44 +1,47 @@
 {{ define "main" }}
-<main class="main-content">
-    <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
-    <div class="list-header">
-        <h1 style="font-size: 1.5rem;">{{ if .IsHome }}最新作品{{ else }}{{ .Title }}{{ end }}</h1>
-    </div>
+<div class="container">
+    <main class="main-content">
+        <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
+        <div class="list-header">
+            <h1>{{ if .IsHome }}最新作品{{ else }}{{ .Title }}{{ end }}</h1>
+        </div>
 
-    <div class="list">
-        {{ range .Paginator.Pages }}
-        <div class="list-card">
-            <div class="list-card-thumb">
-                {{ if .Params.image }}
-                <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
-                {{ else }}
-                <img src="/images/default_thumb.jpg" alt="{{ .Title }}">
-                {{ end }}
-            </div>
-            <div class="list-card-content">
-                {{ if .Params.series }}
-                <div class="list-card-series">
-                    <a href="{{ "series/" | relURL }}{{ .Params.series | urlize }}">{{ .Params.series }}</a>
-                </div>
-                {{ end }}
-                <div class="list-card-title">
-                    <a href="{{ .Permalink }}">{{ .Title }}</a>
-                </div>
-                <div class="list-card-stats">
-                    <span>{{ .WordCount }}字</span>
-                    <span>发布于：{{ .Date.Format "2006-01-02" }}</span>
-                </div>
-                {{ with .Params.tags }}
-                <div class="list-card-tags">
-                    {{ range . }}
-                    <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+        <div class="list">
+            {{ range .Paginator.Pages }}
+            <div class="list-card">
+                <div class="list-card-thumb">
+                    {{ if .Params.image }}
+                    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="lazy">
+                    {{ else }}
+                    <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ .Title }}" loading="lazy">
                     {{ end }}
                 </div>
-                {{ end }}
+                <div class="list-card-content">
+                    {{ if .Params.series }}
+                    <div class="list-card-series">
+                        {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
+                        <a href="{{ $seriesPage.Permalink }}">{{ .Params.series }}</a>
+                    </div>
+                    {{ end }}
+                    <div class="list-card-title">
+                        <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    </div>
+                    <div class="list-card-stats">
+                        <span>{{ .WordCount }}字</span>
+                        <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
+                    </div>
+                    {{ with .Params.tags }}
+                    <div class="list-card-tags">
+                        {{ range . }}
+                        <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
             </div>
+            {{ end }}
         </div>
-        {{ end }}
-    </div>
-    {{ partial "pagination.html" . }}
-</main>
+        {{ partial "pagination.html" . }}
+    </main>
+</div>
 {{ end }}

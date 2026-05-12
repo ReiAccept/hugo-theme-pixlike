@@ -1,8 +1,11 @@
 ---
 title: "夏之终焉"
-date: 2026-03-02
+date: 2026-03-15
 author: "青空"
-tags: ["忧郁", "离别"]
+series: "测试系列"
+series_index: 2
+tags: ["忧郁", "离别", "短篇"]
+image: ""
 ---
 
 蝉鸣声渐渐稀疏。
