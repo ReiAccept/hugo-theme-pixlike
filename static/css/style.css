@@ -35,6 +35,8 @@ a {
     color: var(--pixiv-blue);
     text-decoration: none;
     transition: color var(--transition);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 a:hover {
