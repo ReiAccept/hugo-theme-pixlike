@@ -21,8 +21,8 @@
             <a href="{{ "series/" | relURL }}{{ $name | urlize }}" class="series-grid-card">
                 <div class="series-grid-cover">
                     {{ $firstPage := index $pages 0 }}
-                    {{ if $firstPage.Params.image }}
-                    <img src="{{ $firstPage.Params.image | relURL }}" alt="{{ $name }}" loading="lazy">
+                    {{ if $firstPage.Params.thumb }}
+                    <img src="{{ $firstPage.Params.thumb | relURL }}" alt="{{ $name }}" loading="lazy">
                     {{ else }}
                     <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ $name }}" loading="lazy">
                     {{ end }}

@@ -30,8 +30,8 @@
             {{ range .Paginator.Pages.ByDate.Reverse }}
             <div class="list-card">
                 <div class="list-card-thumb">
-                    {{ if .Params.image }}
-                    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="lazy">
+                    {{ if .Params.thumb }}
+                    <img src="{{ .Params.thumb | relURL }}" alt="{{ .Title }}" loading="lazy">
                     {{ else }}
                     <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ .Title }}" loading="lazy">
                     {{ end }}
