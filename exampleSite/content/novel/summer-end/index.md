@@ -6,6 +6,7 @@ series: "测试系列"
 series_index: 2
 tags: ["忧郁", "离别", "短篇"]
 image: ""
+thumb: "thumb.jpg"
 ---
 
 蝉鸣声渐渐稀疏。

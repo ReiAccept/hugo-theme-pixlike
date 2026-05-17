@@ -88,7 +88,7 @@
 .list-card-thumb {
     width: 98px;
     height: 140px;
-    background: #eee;
+    background: var(--bg-card);
     border-radius: 4px;
     flex-shrink: 0;
     display: flex;

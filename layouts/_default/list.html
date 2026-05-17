@@ -23,18 +23,16 @@
                     </a>
                 </div>
                 {{ end }}
+                {{ if .Params.thumb }}
                 <div class="list-card-thumb">
-                    {{ if .Params.thumb }}
                     {{ $thumb := .Resources.GetMatch .Params.thumb }}
                     {{ if $thumb }}
                     <img src="{{ $thumb.RelPermalink }}" alt="{{ .Title }}" loading="lazy">
                     {{ else }}
                     <img src="{{ .Params.thumb | relURL }}" alt="{{ .Title }}" loading="lazy">
                     {{ end }}
-                    {{ else }}
-                    <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ .Title }}" loading="lazy">
-                    {{ end }}
                 </div>
+                {{ end }}
                 <div class="list-card-content">
                     {{ if .Params.series }}
                     <div class="list-card-series">

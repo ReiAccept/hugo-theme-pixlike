@@ -1,6 +1,6 @@
 baseURL = "http://example.org/"
 locale = "zh-cn"
-title = "我的小说站"
+title = "样例站点"
 theme = "pixlike"
 
 [taxonomies]

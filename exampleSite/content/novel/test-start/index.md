@@ -4,6 +4,8 @@ date: 2026-03-29
 series: "测试系列"
 series_index: 3
 tags: ["测试", "校园"]
+image: "image.jpg"
+thumb: "thumb.jpg"
 ---
 
 ## 新的开始
