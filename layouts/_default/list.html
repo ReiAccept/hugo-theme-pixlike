@@ -17,7 +17,7 @@
             {{ else }}
                 {{ $imageSrc = .Params.image | relURL }}
             {{ end }}
-                <div class="article-image">
+                <div class="list-image">
                     <a href="{{ .Permalink }}">
                         <img src="{{ $imageSrc }}" loading="lazy" alt="Featured image of post {{ .Title }}">
                     </a>
