@@ -1,0 +1,74 @@
+/* ---------- About Page ---------- */
+.about-page {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px;
+}
+
+.about-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+}
+
+.about-title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.about-body {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 2;
+    color: var(--text-main);
+}
+
+.about-body h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 32px 0 16px;
+    padding-left: 12px;
+    border-left: 3px solid var(--pixiv-blue);
+    color: var(--text-main);
+}
+
+.about-body h2:first-child {
+    margin-top: 0;
+}
+
+.about-body p {
+    margin: 0 0 16px;
+}
+
+.about-body ul {
+    margin: 0 0 16px;
+    padding-left: 24px;
+}
+
+.about-body li {
+    margin-bottom: 6px;
+}
+
+.about-body a {
+    color: var(--pixiv-blue);
+    text-decoration: none;
+}
+
+.about-body a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .about-page {
+        padding: 24px 16px;
+    }
+
+    .about-title {
+        font-size: 1.5rem;
+    }
+}
