@@ -2,32 +2,19 @@
 <div class="container">
     <main class="main-content">
         <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
-        <link rel="stylesheet" href="{{ "css/series.css" | relURL }}">
-        <div class="series-single-header">
-            <div class="series-single-breadcrumb">
-                <a href="{{ "series/" | relURL }}" class="series-back-link">&larr; 系列一览</a>
+        <link rel="stylesheet" href="{{ "css/tags.css" | relURL }}">
+        <div class="tags-header">
+            <div class="tags-header-breadcrumb">
+                <a href="{{ "tags/" | relURL }}" class="tag-back-link">&larr; 标签一览</a>
             </div>
-            <div class="series-single-title-row">
-                <h1 class="series-single-title">{{ .Title }}</h1>
+            <h1>#{{ .Title }}</h1>
+            <div class="tags-header-count">
+                共 {{ len .Pages }} 篇作品
             </div>
-            {{ $totalWords := 0 }}
-            {{ range .Pages }}
-                {{ $totalWords = add $totalWords .WordCount }}
-            {{ end }}
-            <div class="series-single-meta">
-                <span>共 {{ len .Pages }} 篇</span>
-                <span>总字数 {{ $totalWords }}</span>
-                <span>最后更新 {{ (index (sort .Pages "Date" "desc") 0).Date.Format "2006-01-02" }}</span>
-            </div>
-            {{ with .Params.description }}
-            <div class="series-single-description">
-                {{ . | markdownify }}
-            </div>
-            {{ end }}
         </div>
 
         <div class="list">
-            {{ range .Paginator.Pages.ByDate.Reverse }}
+            {{ range .Paginator.Pages }}
             <div class="list-card">
                 <div class="list-card-thumb">
                     {{ if .Params.image }}
@@ -37,6 +24,12 @@
                     {{ end }}
                 </div>
                 <div class="list-card-content">
+                    {{ if .Params.series }}
+                    <div class="list-card-series">
+                        {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
+                        <a href="{{ $seriesPage.Permalink }}">{{ .Params.series }}</a>
+                    </div>
+                    {{ end }}
                     <div class="list-card-title">
                         <a href="{{ .Permalink }}">{{ .Title }}</a>
                     </div>

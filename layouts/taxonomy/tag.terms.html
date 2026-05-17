@@ -1,0 +1,27 @@
+{{ define "main" }}
+<div class="container">
+    <main class="main-content">
+        <link rel="stylesheet" href="{{ "css/tags.css" | relURL }}">
+        <div class="tags-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Content }}
+            <div class="tags-description">
+                {{ . }}
+            </div>
+            {{ end }}
+            <div class="tags-count">
+                共 {{ len .Data.Terms }} 个标签
+            </div>
+        </div>
+
+        <div class="tags-cloud">
+            {{ range $name, $taxonomy := .Data.Terms }}
+            <a href="{{ "tags/" | relURL }}{{ $name | urlize }}" class="tags-cloud-item">
+                <span class="tags-cloud-name">#{{ $name }}</span>
+                <span class="tags-cloud-count">{{ len $taxonomy }}</span>
+            </a>
+            {{ end }}
+        </div>
+    </main>
+</div>
+{{ end }}

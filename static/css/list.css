@@ -108,33 +108,6 @@
     flex-wrap: wrap;
 }
 
-/* ---------- Series specific ---------- */
-.series-container {
-    max-width: 100%;
-}
-
-.series-header {
-    margin-bottom: 24px;
-}
-
-.series-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0 0 6px;
-}
-
-.series-meta {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-}
-
-.series-description {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
     .list-card {

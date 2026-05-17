@@ -1,0 +1,53 @@
+{{ define "main" }}
+<div class="container">
+    <main class="main-content">
+        <link rel="stylesheet" href="{{ "css/series.css" | relURL }}">
+        <div class="series-terms-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Content }}
+            <div class="series-terms-description">
+                {{ . }}
+            </div>
+            {{ end }}
+            <div class="series-terms-count">
+                共 {{ len .Data.Terms }} 个系列
+            </div>
+        </div>
+
+        <div class="series-grid">
+            {{ range $name, $taxonomy := .Data.Terms.Alphabetical }}
+            <a href="{{ "series/" | relURL }}{{ $name | urlize }}" class="series-grid-card">
+                <div class="series-grid-cover">
+                    {{ $firstPage := index $taxonomy.Pages 0 }}
+                    {{ if $firstPage.Params.image }}
+                    <img src="{{ $firstPage.Params.image | relURL }}" alt="{{ $name }}" loading="lazy">
+                    {{ else }}
+                    <div class="series-grid-cover-placeholder">
+                        <svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="160" fill="#e8e8e8"/>
+                            <text x="60" y="85" text-anchor="middle" fill="#bbb" font-size="14">No Cover</text>
+                        </svg>
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="series-grid-info">
+                    <div class="series-grid-name">{{ $name }}</div>
+                    <div class="series-grid-meta">
+                        <span>{{ len $taxonomy.Pages }} 篇</span>
+                        {{ $totalWords := 0 }}
+                        {{ range $taxonomy.Pages }}
+                            {{ $totalWords = add $totalWords .WordCount }}
+                        {{ end }}
+                        <span>{{ $totalWords }} 字</span>
+                    </div>
+                    {{ $seriesPage := $.Site.GetPage (printf "series/%s" $name) }}
+                    {{ with $seriesPage.Params.description }}
+                    <div class="series-grid-desc">{{ . | truncate 60 }}</div>
+                    {{ end }}
+                </div>
+            </a>
+            {{ end }}
+        </div>
+    </main>
+</div>
+{{ end }}
