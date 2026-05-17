@@ -125,6 +125,7 @@
 /* The featured image */
 .list-image {
     width: 100%;
+    height: 280px;
     overflow: hidden;
     line-height: 0;
 }
@@ -132,23 +133,28 @@
 .list-image a {
     display: block;
     width: 100%;
+    height: 100%;
 }
 
 .list-image img {
     width: 100%;
-    height: auto;
-    max-height: 480px;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform 0.3s ease;
 }
 
 .list-image a:hover img {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
+    .list-image {
+        height: 180px;
+    }
+
     .list-card {
         gap: 12px;
         padding: 12px;
