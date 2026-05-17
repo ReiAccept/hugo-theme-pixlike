@@ -1,0 +1,43 @@
+{{ define "main" }}
+<div class="container">
+    <main class="main-content">
+        <link rel="stylesheet" href="{{ "css/archives.css" | relURL }}">
+        <div class="archives-header">
+            <h1>Archives</h1>
+            <p class="archives-count">共 {{ len .Site.RegularPages }} 篇文章</p>
+        </div>
+
+        {{ if .Site.RegularPages }}
+        <div class="timeline">
+            {{ range (.Site.RegularPages.GroupByDate "2006") }}
+            <div class="timeline-year">
+                <div class="timeline-year-heading">
+                    <div class="timeline-year-dot"></div>
+                    <span class="timeline-year-text">{{ .Key }}</span>
+                    <span class="timeline-year-count">{{ len .Pages }} 篇</span>
+                </div>
+                <div class="timeline-items">
+                    {{ range .Pages.ByDate.Reverse }}
+                    <div class="timeline-item">
+                        <span class="timeline-date">{{ .Date.Format "01-02" }}</span>
+                        <span class="timeline-title">
+                            <a href="{{ .Permalink }}">{{ .Title }}</a>
+                        </span>
+                        {{ if .Params.series }}
+                        {{ $seriesPage := $.Site.GetPage (printf "series/%s" .Params.series) }}
+                        <span class="timeline-series">
+                            <a href="{{ $seriesPage.Permalink }}">{{ .Params.series }}</a>
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        {{ else }}
+        <div class="timeline-empty">暂无文章</div>
+        {{ end }}
+    </main>
+</div>
+{{ end }}
