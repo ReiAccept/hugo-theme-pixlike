@@ -2,15 +2,14 @@
 <div class="container">
     <main class="main-content">
         <link rel="stylesheet" href="{{ "css/list.css" | relURL }}">
-        <link rel="stylesheet" href="{{ "css/article-header.css" | relURL }}">
         <div class="list-header">
             <h1>{{ if .IsHome }}最新作品{{ else }}{{ .Title }}{{ end }}</h1>
         </div>
 
         <div class="list">
             {{ range .Paginator.Pages }}
+            <div class="list-box">
             {{ if .Params.image }}
-            <!-- hugo-theme-stack style: full-width featured image header -->
             {{ $image := .Resources.GetMatch .Params.image }}
             {{ $imageSrc := "" }}
             {{ if $image }}
@@ -18,48 +17,12 @@
             {{ else }}
                 {{ $imageSrc = .Params.image | relURL }}
             {{ end }}
-            <header class="article-header">
                 <div class="article-image">
                     <a href="{{ .Permalink }}">
                         <img src="{{ $imageSrc }}" loading="lazy" alt="Featured image of post {{ .Title }}">
                     </a>
                 </div>
-                <div class="article-details">
-                    {{ with .Params.categories }}
-                    <header class="article-category">
-                        {{ range . }}
-                        <a href="{{ "categories/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
-                        {{ end }}
-                    </header>
-                    {{ end }}
-                    {{ if .Params.series }}
-                    <div class="article-category">
-                        {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
-                        <a href="{{ $seriesPage.Permalink }}">{{ .Params.series }}</a>
-                    </div>
-                    {{ end }}
-                    <h2 class="article-title">
-                        <a href="{{ .Permalink }}">{{ .Title }}</a>
-                    </h2>
-                    {{ with .Params.subtitle }}
-                    <h3 class="article-subtitle">{{ . }}</h3>
-                    {{ end }}
-                    <div class="article-meta">
-                        <span>{{ .WordCount }}字</span>
-                        <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
-                        <span>阅读时长: {{ .ReadingTime }} 分钟</span>
-                    </div>
-                    {{ with .Params.tags }}
-                    <div class="article-tags">
-                        {{ range . }}
-                        <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
-                        {{ end }}
-                    </div>
-                    {{ end }}
-                </div>
-            </header>
-            {{ else }}
-            <!-- original list-card layout for posts without featured image -->
+            {{ end }}
             <div class="list-card">
                 <div class="list-card-thumb">
                     {{ if .Params.thumb }}
@@ -96,7 +59,8 @@
                     {{ end }}
                 </div>
             </div>
-            {{ end }}
+        </div>
+            
             {{ end }}
         </div>
         {{ partial "pagination.html" . }}

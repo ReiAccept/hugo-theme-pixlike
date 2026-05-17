@@ -108,6 +108,45 @@
     flex-wrap: wrap;
 }
 
+.list-box {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.list-box:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
+}
+
+/* The featured image */
+.article-image {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.article-image a {
+    display: block;
+    width: 100%;
+}
+
+.article-image img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.article-image a:hover img {
+    transform: scale(1.02);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
     .list-card {

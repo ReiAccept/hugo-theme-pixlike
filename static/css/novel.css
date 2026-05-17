@@ -124,3 +124,19 @@
         padding-bottom: 16px;
     }
 }
+
+.single-article-image {
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+    line-height: 0;
+}
+
+.single-article-image img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+}
