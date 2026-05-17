@@ -2,19 +2,43 @@
 <main class="main-content">
     <link rel="stylesheet" href="{{ "css/novel.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/sidebar.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/article-header.css" | relURL }}">
     <div class="container">
         <article class="novel-page">
+            {{ if .Params.image }}
+            {{ $image := .Resources.GetMatch .Params.image }}
+            {{ $imageSrc := "" }}
+            {{ if $image }}
+                {{ $imageSrc = $image.RelPermalink }}
+            {{ else }}
+                {{ $imageSrc = .Params.image | relURL }}
+            {{ end }}
+            <div class="single-article-image">
+                <img src="{{ $imageSrc }}" alt="Featured image of post {{ .Title }}">
+            </div>
+            {{ end }}
             <div class="novel-header">
                 <div>
+                    {{ if .Params.categories }}
+                    <div style="margin-bottom: 4px;">
+                        {{ range .Params.categories }}
+                        <a href="{{ "categories/" | relURL }}{{ . | urlize }}/" class="novel-series-link">{{ . }}</a>
+                        {{ end }}
+                    </div>
+                    {{ end }}
                     {{ if .Params.series }}
                     {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
                     <a href="{{ $seriesPage.Permalink }}" class="novel-series-link">{{ .Params.series }}</a>
                     {{ end }}
                 </div>
                 <h1 class="novel-title">{{ .Title }}</h1>
+                {{ with .Params.subtitle }}
+                <h3 style="font-size: 1.05rem; font-weight: 400; color: var(--text-muted); margin: -6px 0 12px; line-height: 1.5;">{{ . }}</h3>
+                {{ end }}
                 <div class="novel-meta">
                     <span>{{ .WordCount }}字</span>
                     <span>发布于 {{ .Date.Format "2006-01-02" }}</span>
+                    <span>阅读时长: {{ .ReadingTime }} 分钟</span>
                 </div>
                 {{ with .Params.tags }}
                 <div class="novel-tags">
