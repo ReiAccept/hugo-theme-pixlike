@@ -104,7 +104,6 @@
     flex-direction: column;
     background: var(--bg-card);
     border-top: 1px solid var(--border-color);
-    padding: 8px 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease;
