@@ -15,27 +15,24 @@
         </div>
 
         <div class="series-grid">
-            {{ range $name, $taxonomy := .Data.Terms.Alphabetical }}
+            {{ range .Data.Terms.Alphabetical }}
+            {{ $name := .Term }}
+            {{ $pages := .Pages }}
             <a href="{{ "series/" | relURL }}{{ $name | urlize }}" class="series-grid-card">
                 <div class="series-grid-cover">
-                    {{ $firstPage := index $taxonomy.Pages 0 }}
+                    {{ $firstPage := index $pages 0 }}
                     {{ if $firstPage.Params.image }}
                     <img src="{{ $firstPage.Params.image | relURL }}" alt="{{ $name }}" loading="lazy">
                     {{ else }}
-                    <div class="series-grid-cover-placeholder">
-                        <svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="120" height="160" fill="#e8e8e8"/>
-                            <text x="60" y="85" text-anchor="middle" fill="#bbb" font-size="14">No Cover</text>
-                        </svg>
-                    </div>
+                    <img src="{{ "images/default_thumb.jpg" | relURL }}" alt="{{ $name }}" loading="lazy">
                     {{ end }}
                 </div>
                 <div class="series-grid-info">
                     <div class="series-grid-name">{{ $name }}</div>
                     <div class="series-grid-meta">
-                        <span>{{ len $taxonomy.Pages }} 篇</span>
+                        <span>{{ len $pages }} 篇</span>
                         {{ $totalWords := 0 }}
-                        {{ range $taxonomy.Pages }}
+                        {{ range $pages }}
                             {{ $totalWords = add $totalWords .WordCount }}
                         {{ end }}
                         <span>{{ $totalWords }} 字</span>
