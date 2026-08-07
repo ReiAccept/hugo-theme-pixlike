@@ -1,6 +1,6 @@
 # hugo-theme-pixlike
 
-一个模仿 Pixiv 小说页面的 hugo 主题
+一个模仿 Pixiv 页面的 hugo 主题
 
 ## Installation
 

@@ -1,0 +1,506 @@
+/* ========== Illustration List (Grid Gallery) ========== */
+.illust-list-header {
+    margin-bottom: 24px;
+}
+
+.illust-list-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 4px;
+}
+
+.illust-list-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Grid layout */
+.illust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* Individual card */
+.illust-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+    position: relative;
+}
+
+.illust-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.illust-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.illust-card-link:hover {
+    color: inherit;
+}
+
+/* Card image area */
+.illust-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #f0f0f0;
+    line-height: 0;
+}
+
+.illust-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.illust-card:hover .illust-card-image img {
+    transform: scale(1.08);
+}
+
+/* Hover overlay */
+.illust-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 12px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.illust-card:hover .illust-card-overlay {
+    opacity: 1;
+}
+
+.illust-card-overlay-title {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.illust-card-overlay-meta {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.75rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.illust-card-overlay-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Card info below image (always visible) */
+.illust-card-info {
+    padding: 10px 12px 12px;
+}
+
+.illust-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.illust-card-stats {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.illust-card-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.illust-card-tags {
+    margin-top: 6px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.illust-card-tags .tag {
+    font-size: 0.72rem;
+    padding: 1px 8px;
+}
+
+/* Multi-image badge */
+.illust-card-page-count {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    z-index: 2;
+}
+
+/* ========== Single Illustration Page ========== */
+.illust-page {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Main image viewer */
+.illust-viewer {
+    position: relative;
+    background: #fafafa;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    line-height: 0;
+}
+
+.illust-viewer-inner {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.illust-viewer img {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+/* Click-to-fullsize hint */
+.illust-viewer-img-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.illust-viewer-img-wrap::after {
+    content: "点击查看原图";
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity var(--transition);
+    pointer-events: none;
+    font-family: var(--font-sans);
+    line-height: 1.5;
+}
+
+.illust-viewer-img-wrap:hover::after {
+    opacity: 1;
+}
+
+/* Navigation arrows */
+.illust-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 72px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all var(--transition);
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    user-select: none;
+}
+
+.illust-nav-arrow:hover {
+    background: #fff;
+    color: var(--pixiv-blue);
+    box-shadow: var(--shadow-hover);
+}
+
+.illust-nav-arrow.disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.illust-nav-prev {
+    left: 12px;
+}
+
+.illust-nav-next {
+    right: 12px;
+}
+
+/* Page indicator */
+.illust-page-indicator {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.82rem;
+    padding: 4px 14px;
+    border-radius: 12px;
+    z-index: 5;
+    font-family: var(--font-sans);
+    line-height: 1.5;
+}
+
+/* Thumbnail strip */
+.illust-thumb-strip {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.illust-thumb {
+    width: 72px;
+    height: 54px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all var(--transition);
+    opacity: 0.55;
+    line-height: 0;
+    flex-shrink: 0;
+}
+
+.illust-thumb:hover {
+    opacity: 0.8;
+    border-color: var(--border-color);
+}
+
+.illust-thumb.active {
+    opacity: 1;
+    border-color: var(--pixiv-blue);
+}
+
+.illust-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Illustration header / metadata */
+.illust-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.illust-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.illust-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text-main);
+    margin: 0 0 10px;
+    letter-spacing: 0.02em;
+}
+
+.illust-stats {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.illust-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.illust-stat-item.like {
+    color: #e06090;
+}
+
+.illust-stat-item.bookmark {
+    color: var(--pixiv-blue);
+}
+
+.illust-stat-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.illust-meta {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.illust-meta-author {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.illust-illust-id {
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+/* Caption / description */
+.illust-caption {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-main);
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Tags */
+.illust-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Series info in single page */
+.illust-series-link {
+    display: inline-block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    transition: color var(--transition);
+}
+
+.illust-series-link:hover {
+    color: var(--pixiv-blue);
+}
+
+/* Responsive - list grid */
+@media (max-width: 900px) {
+    .illust-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .illust-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .illust-card-info {
+        padding: 8px 10px 10px;
+    }
+}
+
+/* Responsive - single page */
+@media (max-width: 768px) {
+    .illust-title {
+        font-size: 1.3rem;
+    }
+
+    .illust-stats {
+        gap: 12px;
+    }
+
+    .illust-stat-item {
+        font-size: 0.8rem;
+    }
+
+    .illust-viewer {
+        border-radius: 0;
+        margin-left: -12px;
+        margin-right: -12px;
+        border-left: none;
+        border-right: none;
+        min-height: 200px;
+    }
+
+    .illust-viewer img {
+        max-height: 55vh;
+    }
+
+    .illust-nav-arrow {
+        width: 32px;
+        height: 56px;
+        font-size: 1rem;
+    }
+
+    .illust-nav-prev {
+        left: 6px;
+    }
+
+    .illust-nav-next {
+        right: 6px;
+    }
+
+    .illust-thumb {
+        width: 56px;
+        height: 42px;
+    }
+}

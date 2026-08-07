@@ -1,0 +1,250 @@
+{{ define "main" }}
+<main class="main-content">
+    <link rel="stylesheet" href="{{ "css/illust.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/sidebar.css" | relURL }}">
+    <div class="container">
+
+        {{/* Collect all illustration images */}}
+        {{ $images := slice }}
+        {{ if .Params.images }}
+            {{ range .Params.images }}
+                {{ $img := $.Resources.GetMatch . }}
+                {{ if $img }}
+                    {{ $images = $images | append $img }}
+                {{ end }}
+            {{ end }}
+        {{ else }}
+            {{ $images = .Resources.ByType "image" }}
+        {{ end }}
+
+        <article class="illust-page">
+            {{/* Image Viewer */}}
+            <div class="illust-viewer" id="illust-viewer">
+                <div class="illust-viewer-inner">
+                    {{ if gt (len $images) 0 }}
+                        {{ range $idx, $img := $images }}
+                        {{ $original := $img.RelPermalink }}
+                        {{ $display := $img.RelPermalink }}
+                        {{ if gt $img.Width 1600 }}
+                            {{ $display = ($img.Resize "1600x").RelPermalink }}
+                        {{ end }}
+                        <div class="illust-viewer-img-wrap"
+                             data-index="{{ $idx }}"
+                             data-original="{{ $original }}"
+                             onclick="window.open('{{ $original }}', '_blank')"
+                             style="{{ if eq $idx 0 }}display:flex{{ else }}display:none{{ end }}">
+                            <img src="{{ $display }}" alt="{{ $.Title }} - page {{ add $idx 1 }}" id="illust-img-{{ $idx }}">
+                        </div>
+                        {{ end }}
+
+                        {{/* Navigation arrows (only if multiple images) */}}
+                        {{ if gt (len $images) 1 }}
+                        <button class="illust-nav-arrow illust-nav-prev" id="illust-prev" aria-label="上一张">◀</button>
+                        <button class="illust-nav-arrow illust-nav-next" id="illust-next" aria-label="下一张">▶</button>
+                        <div class="illust-page-indicator" id="illust-page-indicator">1 / {{ len $images }}</div>
+                        {{ end }}
+                    {{ else }}
+                        <div style="padding:60px 20px;text-align:center;color:var(--text-light);">
+                            <div style="font-size:3rem;margin-bottom:12px;">🖼</div>
+                            <div>暂无图片</div>
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+
+            {{/* Thumbnail strip (multi-image only) */}}
+            {{ if gt (len $images) 1 }}
+            <div class="illust-thumb-strip" id="illust-thumb-strip">
+                {{ range $idx, $img := $images }}
+                <div class="illust-thumb{{ if eq $idx 0 }} active{{ end }}"
+                     data-index="{{ $idx }}"
+                     onclick="switchImage({{ $idx }})">
+                    <img src="{{ ($img.Fill "144x108 Center").RelPermalink }}" alt="page {{ add $idx 1 }}" loading="lazy">
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+
+            {{/* Metadata */}}
+            <div class="illust-header">
+                {{ if .Params.categories }}
+                <div style="margin-bottom: 4px;">
+                    {{ range .Params.categories }}
+                    <a href="{{ "categories/" | relURL }}{{ . | urlize }}/" class="illust-series-link">{{ . }}</a>
+                    {{ end }}
+                </div>
+                {{ end }}
+
+                {{ if .Params.series }}
+                {{ $seriesPage := .Site.GetPage (printf "series/%s" .Params.series) }}
+                <a href="{{ $seriesPage.Permalink }}" class="illust-series-link">{{ .Params.series }}</a>
+                {{ end }}
+
+                <div class="illust-title-row">
+                    <h1 class="illust-title">{{ .Title }}</h1>
+                    <div class="illust-stats">
+                        {{ with .Params.likes }}
+                        <div class="illust-stat-item like">
+                            <span class="illust-stat-icon">♥</span>
+                            <span>{{ . }}</span>
+                        </div>
+                        {{ end }}
+                        {{ with .Params.bookmarks }}
+                        <div class="illust-stat-item bookmark">
+                            <span class="illust-stat-icon">★</span>
+                            <span>{{ . }}</span>
+                        </div>
+                        {{ end }}
+                        {{ with .Params.views }}
+                        <div class="illust-stat-item">
+                            <span class="illust-stat-icon">👁</span>
+                            <span>{{ . }}</span>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+
+                <div class="illust-meta">
+                    {{ with .Params.author }}
+                    <span class="illust-meta-author">{{ . }}</span>
+                    {{ end }}
+                    <span>{{ .Date.Format "2006-01-02" }}</span>
+                    {{ with .Params.illust_id }}
+                    <span class="illust-illust-id">ID: {{ . }}</span>
+                    {{ end }}
+                </div>
+
+                {{ with .Params.caption }}
+                <div class="illust-caption">{{ . }}</div>
+                {{ end }}
+
+                {{ with .Params.tags }}
+                <div class="illust-tags">
+                    {{ range . }}
+                    <a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">#{{ . }}</a>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+
+            {{/* Body content (for additional markdown content) */}}
+            {{ with .Content }}
+            <div class="illust-body" style="font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.8; color: var(--text-main); margin-bottom: 24px;">
+                {{ . }}
+            </div>
+            {{ end }}
+        </article>
+
+        {{/* Sidebar */}}
+        <aside class="sidebar">
+            {{ if .Params.series }}
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">系列目录</div>
+                <div class="series-nav-list">
+                    {{ $current := . }}
+                    {{ $seriesName := .Params.series }}
+                    {{ range (where .Site.RegularPages "Params.series" $seriesName).ByDate }}
+                    <div class="series-nav-item{{ if eq .Permalink $current.Permalink }} active{{ end }}">
+                        <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+
+            {{ with .Params.author }}
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">作者</div>
+                <div style="font-size:0.9rem;color:var(--text-main);font-weight:600;">{{ . }}</div>
+            </div>
+            {{ end }}
+
+            {{ with .Params.illust_id }}
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">作品信息</div>
+                <div style="font-size:0.82rem;color:var(--text-light);">
+                    <div>ID: {{ . }}</div>
+                    <div>发布日期: {{ $.Date.Format "2006-01-02" }}</div>
+                    {{ with $.Params.resolution }}
+                    <div>分辨率: {{ . }}</div>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+        </aside>
+    </div>
+</main>
+
+{{/* Multi-image slideshow script */}}
+{{ if gt (len $images) 1 }}
+<script>
+(function() {
+    var total = {{ len $images }};
+    var current = 0;
+    var prevBtn = document.getElementById('illust-prev');
+    var nextBtn = document.getElementById('illust-next');
+    var indicator = document.getElementById('illust-page-indicator');
+    var thumbs = document.querySelectorAll('#illust-thumb-strip .illust-thumb');
+
+    function showImage(index) {
+        // Hide all images
+        var allImgs = document.querySelectorAll('.illust-viewer-img-wrap');
+        allImgs.forEach(function(el) { el.style.display = 'none'; });
+
+        // Show target
+        var target = document.querySelector('.illust-viewer-img-wrap[data-index="' + index + '"]');
+        if (target) target.style.display = 'flex';
+
+        // Update indicator
+        if (indicator) indicator.textContent = (index + 1) + ' / ' + total;
+
+        // Update thumbnails
+        thumbs.forEach(function(t) {
+            t.classList.remove('active');
+            if (parseInt(t.getAttribute('data-index')) === index) {
+                t.classList.add('active');
+            }
+        });
+
+        // Update arrow states
+        if (prevBtn) prevBtn.classList.toggle('disabled', index === 0);
+        if (nextBtn) nextBtn.classList.toggle('disabled', index === total - 1);
+
+        current = index;
+    }
+
+    window.switchImage = showImage;
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (current > 0) showImage(current - 1);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            if (current < total - 1) showImage(current + 1);
+        });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        // Only if illust viewer is in/near viewport
+        var viewer = document.getElementById('illust-viewer');
+        if (!viewer) return;
+        var rect = viewer.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+        if (e.key === 'ArrowLeft') {
+            if (current > 0) showImage(current - 1);
+        } else if (e.key === 'ArrowRight') {
+            if (current < total - 1) showImage(current + 1);
+        }
+    });
+
+    // Initialize: disable prev on first page
+    if (prevBtn) prevBtn.classList.add('disabled');
+})();
+</script>
+{{ end }}
+{{ end }}

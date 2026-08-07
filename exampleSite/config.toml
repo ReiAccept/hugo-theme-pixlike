@@ -13,6 +13,17 @@ theme = "pixlike"
 
 [permalinks]
   novel = "/novel/:slug/"
+  illust = "/illust/:slug/"
+
+[menu]
+  [[menu.main]]
+    name = "插画"
+    url = "/illust/"
+    weight = 1
+  [[menu.main]]
+    name = "小说"
+    url = "/novel/"
+    weight = 2
 
 [pagination]
   pagerSize = 10
